@@ -20,7 +20,8 @@ export default function Login({ onLogin }) {
             localStorage.setItem('user', JSON.stringify(response.data.user))
             onLogin()
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed. Please try again.')
+            const msg = err.response?.data?.error || err.response?.data?.message || 'Login failed. Please try again.'
+            setError(msg)
         } finally {
             setLoading(false)
         }

@@ -76,7 +76,8 @@ router.post('/login', async (req, res) => {
             user: { username: user.username, email: user.email, role: user.role }
         })
     } catch (error) {
-        res.status(500).json({ message: 'Error logging in', error: error.message })
+        console.error('Login Error:', error)
+        res.status(500).json({ message: 'Error logging in', error: error.message, stack: process.env.NODE_ENV === 'development' ? error.stack : undefined })
     }
 })
 
