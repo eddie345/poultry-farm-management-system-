@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../../utils/api'
 import Card from '../Shared/Card'
 
 export default function StockList() {
@@ -21,9 +21,7 @@ export default function StockList() {
 
     const fetchStocks = async () => {
         try {
-            const response = await axios.get('/api/feed/stock', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            const response = await api.get('/feed/stock')
             setStocks(response.data)
         } catch (error) {
             console.error('Error fetching stocks:', error)
@@ -39,9 +37,7 @@ export default function StockList() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.post('/api/feed/stock', formData, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            await api.post('/feed/stock', formData)
             fetchStocks()
             setShowForm(false)
             setFormData({

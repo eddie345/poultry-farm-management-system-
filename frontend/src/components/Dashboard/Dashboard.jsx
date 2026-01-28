@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import axios from 'axios'
+import api from '../../utils/api'
 import Card from '../Shared/Card'
 
 export default function Dashboard() {
@@ -19,9 +19,7 @@ export default function Dashboard() {
 
     const fetchDashboardData = async () => {
         try {
-            const response = await axios.get('/api/dashboard/stats', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            const response = await api.get('/dashboard/stats')
             setStats(response.data.stats || {
                 totalEggs: 1250,
                 feedStock: 850,

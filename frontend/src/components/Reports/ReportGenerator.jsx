@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import api from '../../utils/api'
 import Card from '../Shared/Card'
 
 export default function ReportGenerator() {
@@ -22,13 +22,12 @@ export default function ReportGenerator() {
     const handleGenerateReport = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`/api/reports/generate`, {
+            const response = await api.get(`/reports/generate`, {
                 params: {
                     type: reportType,
                     startDate: dateRange.startDate,
                     endDate: dateRange.endDate
-                },
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                }
             })
             setReportData(response.data)
         } catch (error) {
@@ -81,13 +80,12 @@ export default function ReportGenerator() {
 
     const handleExport = async (format) => {
         try {
-            const response = await axios.get(`/api/reports/export/${format}`, {
+            const response = await api.get(`/reports/export/${format}`, {
                 params: {
                     type: reportType,
                     startDate: dateRange.startDate,
                     endDate: dateRange.endDate
                 },
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 responseType: 'blob'
             })
 
@@ -120,8 +118,8 @@ export default function ReportGenerator() {
                                     key={type.value}
                                     onClick={() => setReportType(type.value)}
                                     className={`p-4 rounded-lg border-2 transition-all text-left ${reportType === type.value
-                                            ? 'border-primary-500 bg-primary-50'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                        ? 'border-primary-500 bg-primary-50'
+                                        : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                 >
                                     <div className="flex items-center">

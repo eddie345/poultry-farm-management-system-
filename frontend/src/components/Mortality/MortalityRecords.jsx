@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../../utils/api'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import Card from '../Shared/Card'
 
@@ -20,9 +20,7 @@ export default function MortalityRecords() {
 
     const fetchRecords = async () => {
         try {
-            const response = await axios.get('/api/mortality/records', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            const response = await api.get('/mortality/records')
             setRecords(response.data)
         } catch (error) {
             console.error('Error fetching mortality records:', error)
@@ -39,9 +37,7 @@ export default function MortalityRecords() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.post('/api/mortality/records', formData, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            await api.post('/mortality/records', formData)
             fetchRecords()
             setShowForm(false)
             setFormData({

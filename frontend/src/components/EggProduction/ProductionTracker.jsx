@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../../utils/api'
 import Card from '../Shared/Card'
 
 export default function ProductionTracker() {
@@ -19,9 +19,7 @@ export default function ProductionTracker() {
 
     const fetchProductions = async () => {
         try {
-            const response = await axios.get('/api/eggs/production', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            const response = await api.get('/eggs/production')
             setProductions(response.data)
         } catch (error) {
             console.error('Error fetching productions:', error)
@@ -37,9 +35,7 @@ export default function ProductionTracker() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.post('/api/eggs/production', formData, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            await api.post('/eggs/production', formData)
             fetchProductions()
             setShowForm(false)
             setFormData({
